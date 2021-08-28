@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="uk-container">
+    <div
+        class="uk-card uk-card-default uk-card-body uk-width-large uk-flex uk-flex-center uk-margin-medium-top uk-margin-auto">
+        <form method='POST' action="/login">
+            <fieldset class="uk-fieldset">
+                <p class="uk-text uk-text-large uk-text-center uk-text-emphasis">Login</p>
+                <div class="uk-margin">
+                    <div class="uk-inline uk-width-medium uk-margin-auto">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input type='text' name='username' class='uk-input' placeholder="Username" required />
+                    </div>
+                </div>
+
+                <div class=" uk-margin">
+                    <div class="uk-inline uk-width-medium uk-margin-auto">
+                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                        <input type='password' name='password' class='uk-input' placeholder="Password" required />
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class='uk-inline uk-width-medium uk-margin-auto'>
+                        <button class="uk-button uk-width-1-1 uk-button-primary">Login</button>
+                    </div>
+                </div>
+                {% for message in messages %}
+                <p class='uk-text-center uk-width-medium uk-margin-auto'>{{ message }}</p>
+                {% endfor %}
+                <div class='uk-text uk-text-center uk-margin'>
+                    Don't have an account? <a class="uk-link" href="/register">Register</a>
+                </div>
+                <div class='uk-text uk-text-center uk-margin-small-bottom'>
+                    <a class="uk-link" href="/forgot-password">Forgot password?</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

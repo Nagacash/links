@@ -8,7 +8,12 @@ const Link = db.define("Link", {
         defaultValue: DataTypes.UUIDV4,
         allowNull: false
     },
-    link: {
+    linkName: {
+        type: DataTypes.STRING(50),
+        required: true,
+        allowNull: false
+    },
+    linkURL: {
         type: DataTypes.STRING,
         required: true,
         allowNull: false

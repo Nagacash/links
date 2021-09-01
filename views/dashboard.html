@@ -7,11 +7,26 @@
             <h1 class="uk-text uk-text-large uk-text-light uk-text-emphasis uk-heading-divider uk-color-black">
                 DASHBOARD
             </h1>
+            {% if links.length == 0 %}
+            <p class="uk-text uk-text-small">You have no links.</p>
+            {% else %}
+            <p class="uk-text uk-text-small">Your links are below.</p>
+            {% endif %}
+
+            {% for message in messages %}
+            <p class="uk-text uk-text-small">{{ message }}</p>
+            {% endfor %}
         </div>
 
-
-        <div>
-
+        <div class="uk-margin-small-top uk-flex uk-flex-wrap">
+            {% for link in links %}
+            <div class="uk-width-1-3 uk-margin-small-right">
+                <div class="uk-card uk-card-medium uk-card-default uk-card-body">
+                    <h3 class="uk-card-title uk-text-light">{{link.linkName}}</h3>
+                    <p>{{link.link}}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

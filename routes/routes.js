@@ -28,11 +28,11 @@ async function postRegister(req, res) {
         res.redirect("/register")
     }
     if (!userExists) {
-        bcrypt.hash(password, 12, (err, hash) => {
+        bcrypt.hash(password, 12, async (err, hash) => {
             if (err) {
                 console.log(err)
             }
-            let newUser = User.create({ email: email, username: username, password: hash }).catch((err) => { console.log("Error occurred when trying to create user ", err) })
+            let newUser = await User.create({ email: email, username: username, password: hash }).catch((err) => { console.log("Error occurred when trying to create user ", err) })
             res.redirect("/login")
         })
     }
@@ -63,15 +63,33 @@ async function postLogin(req, res) {
 
 function logout(req, res) {
     req.session.user = null;
-    req.flash("loginMessage", "You have been logged out.")
-    res.redirect("/login")
+    req.flash("loginMessage", "You have been logged out.");
+    res.redirect("/login");
 }
 
-function getDashboard(req, res) {
-    res.render("dashboard.html", { title: "Express Link - Dashboard" })
+async function getDashboard(req, res) {
+    let links = await Link.findAll({
+        where: {
+            linkOwnerId: req.session.user.id
+        }
+    });
+    res.render("dashboard.html", { title: "Express Link - Dashboard", links: links, linksLength: links.length, messages: req.flash("dashboardMessage") });
 }
 
+function getCreateLink(req, res) {
+    res.render("create-link.html", { title: "Express Link - Create Link" });
+}
 
+async function postCreateLink(req, res) {
+    const linkName = req.body.linkName;
+    const linkURL = req.body.linkURL;
+    let linkOwner = await User.findOne({ where: { username: req.session.user.username } });
+    let link = await Link.create({ linkName: linkName, linkURL: linkURL, linkOwnerId: linkOwner.id }).catch((err) => { console.log("Error occurred when creating link...", err) })
+
+    req.flash("dashboardMessage", `Link for ${linkName} has been created successfully.`)
+    res.redirect("/dashboard")
+
+}
 
 module.exports = {
     getHome: getHome,
@@ -80,5 +98,7 @@ module.exports = {
     postRegister: postRegister,
     postLogin: postLogin,
     logout: logout,
-    getDashboard: getDashboard
+    getDashboard: getDashboard,
+    getCreateLink: getCreateLink,
+    postCreateLink: postCreateLink
 }

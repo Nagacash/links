@@ -26,16 +26,16 @@ const User = require("./models/User.js")
 const Link = require("./models/Link.js")
 
 // A user can have many links and you can query them by User.links(...)
-User.hasMany(Link, { as: "links" })
+User.hasMany(Link, { as: "links", onDelete: "CASCADE" })
 
-// A link belongs to one user and the ownerId is the id of the owner (user)
-Link.belongsTo(User, { foreignKey: "ownerId", as: "owner" })
+// A link belongs to one user and that user is the linkOwner
+Link.belongsTo(User, { as: "linkOwner", foreignKey: "linkOwnerId", constraints: false })
 
 
 // Middlewares
 app.use(express.static(__dirname + "/public"));
 app.use(session({
-    secret: "asdfghjkl",
+    secret: "1b15dc2f6bd549a483caaccdb5186f36",
     cookie: { maxAge: 1000 * 3600 * 24 * 7 },
     resave: false,
     saveUninitialized: false
@@ -60,6 +60,8 @@ app.post("/register", routes.postRegister);
 app.post("/login", routes.postLogin);
 app.get("/logout", routes.logout);
 app.get("/dashboard", loginRequired, routes.getDashboard);
+app.get("/create-link", loginRequired, routes.getCreateLink);
+app.post("/create-link", loginRequired, routes.postCreateLink);
 
 
 const PORT = process.env.PORT || 5000;

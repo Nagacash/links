@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/js/uikit-icons.min.js"></script>
+    <title>{{title}}</title>
+</head>
+
+<body>
+    <style>
+        .link {
+            border: 1px solid lightgray;
+            border-radius: 16px;
+        }
+    </style>
+    <div class="uk-container">
+        <div class="uk-flex uk-flex-column uk-flex-center uk-align-center">
+            <div class="uk-margin-medium-top uk-margin-auto">
+                <h1 class="uk-color-black uk-text-light">{{user.username}}</h1>
+            </div>
+
+            <div class="uk-margin uk-flex uk-flex-column uk-flex-center uk-align-center uk-text-center">
+                {% for link in links %}
+                <div class="uk-margin-small uk-padding-small link">
+                    <a href="{{link.linkURL}}" target="__blank"
+                        class="uk-link-heading uk-text-large">{{link.linkName}}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -73,23 +73,85 @@ async function getDashboard(req, res) {
             linkOwnerId: req.session.user.id
         }
     });
-    res.render("dashboard.html", { title: "Express Link - Dashboard", links: links, linksLength: links.length, messages: req.flash("dashboardMessage") });
+    res.render("dashboard.html", { title: "Express Link - Dashboard", links: links, linksLength: links.length, messages: req.flash("dashboardMessage"), user: req.session.user });
 }
 
 function getCreateLink(req, res) {
-    res.render("create-link.html", { title: "Express Link - Create Link" });
+    res.render("createLink.html", { title: "Express Link - Create Link" });
 }
 
 async function postCreateLink(req, res) {
     const linkName = req.body.linkName;
     const linkURL = req.body.linkURL;
-    let linkOwner = await User.findOne({ where: { username: req.session.user.username } });
+    let linkOwner = await User.findOne({ where: { id: req.session.user.id } });
     let link = await Link.create({ linkName: linkName, linkURL: linkURL, linkOwnerId: linkOwner.id }).catch((err) => { console.log("Error occurred when creating link...", err) })
 
     req.flash("dashboardMessage", `Link for ${linkName} has been created successfully.`)
     res.redirect("/dashboard")
+}
+
+
+async function getEditLink(req, res) {
+    const link = await Link.findOne({ where: { id: req.params.linkId } });
+    if (link && link.linkOwnerId === req.session.user.id) {
+        res.render("editLink.html", { title: `Express Link - ${link.linkName}`, defaultName: link.linkName, defaultURL: link.linkURL, linkId: link.id })
+    }
+    if (!link) {
+        req.flash("dashboardMessage", "That link is invalid.")
+        res.redirect('/dashboard')
+    }
+
+    if (link.linkOwnerId !== req.session.user.id) {
+        req.flash("dashboardMessage", "You do not have permission to do that.")
+        res.redirect('/dashboard')
+    }
 
 }
+
+
+async function postEditLink(req, res) {
+    const link = await Link.findOne({ where: { id: req.params.linkId } });
+    const linkURL = req.body.linkURL;
+    const linkName = req.body.linkName;
+
+    if (link && link.linkOwnerId === req.session.user.id) {
+        link.update({ linkName: linkName, linkURL: linkURL });
+        req.flash("dashboardMessage", "Your link has been updated!")
+        res.redirect("/dashboard")
+    }
+
+    if (!link) {
+        req.flash("dashboardMessage", "That link is invalid.")
+        res.redirect('/dashboard')
+    }
+
+    if (link.linkOwnerId !== req.session.user.id) {
+        req.flash("dashboardMessage", "You do not have permission to do that.")
+        res.redirect('/dashboard')
+    }
+}
+
+
+function getAccountSettings(req, res) {
+    const defaultUsername = req.session.user.username;
+    const defaultEmail = req.session.user.email;
+
+    res.render("account.html", { title: "Express Link - Account", messages: req.flash("accountMessage"), defaultUsername: defaultUsername, defaultEmail: defaultEmail })
+}
+
+async function getUserProfile(req, res) {
+    const user = await User.findOne({ where: { username: req.params.username } });
+    if (user) {
+        const username = user.username;
+        const links = await Link.findAll({ where: { linkOwnerId: user.id } });
+
+        res.render("user.html", { title: `Express Link - ${username}`, links: links, user: user })
+    }
+    else {
+        res.send("That user profile does not exist.")
+    }
+}
+
 
 module.exports = {
     getHome: getHome,
@@ -100,5 +162,9 @@ module.exports = {
     logout: logout,
     getDashboard: getDashboard,
     getCreateLink: getCreateLink,
-    postCreateLink: postCreateLink
+    postCreateLink: postCreateLink,
+    getEditLink: getEditLink,
+    postEditLink: postEditLink,
+    getAccountSettings: getAccountSettings,
+    getUserProfile: getUserProfile,
 }

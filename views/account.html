@@ -1,0 +1,45 @@
+{% extends "loggedInLayout.html" %}
+
+{% block content %}
+<div class="uk-container">
+    <div class="uk-flex uk-flex-column">
+        <div class="uk-margin-medium-top">
+            <p class="uk-text uk-text-large uk-text-light uk-text-emphasis uk-heading-divider uk-color-black">Account
+                Settings</p>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small uk-card-body">
+                    <form method='POST' action='/account'>
+                        <fieldset class="uk-fieldset">
+                            <div class="uk-margin">
+                                <label class="uk-form-label">Username</label>
+                                <input class="uk-input" type='text' value="{{defaultUsername}}" name='username'
+                                    id='username' placeholder="Username" minlength="4" maxlength="20" required />
+                            </div>
+
+                            <div class="uk-margin">
+                                <label class="uk-form-label">Email Address</label>
+                                <input class='uk-input' type='email' value="{{defaultEmail}}" name='email' id='email'
+                                    placeholder="Email" maxlength='320' required />
+                            </div>
+
+                            {% for message in messages %}
+                            <p class='uk-text'>{{ message }}</p>
+                            {% endfor %}
+
+                            <div class="uk-margin" uk-tooltip='title: Save changes; pos: bottom'>
+                                <button class="uk-button uk-button-primary uk-width-1-1">
+                                    Update Account
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock %}

@@ -7,6 +7,9 @@
             <h1 class="uk-text uk-text-large uk-text-light uk-text-emphasis uk-heading-divider uk-color-black">
                 DASHBOARD
             </h1>
+            <a href="/{{user.username}}" target="__blank" class="uk-text uk-text-small uk-text-decoration-none">View My
+                Express
+                Link Website</a>
             {% if links.length == 0 %}
             <p class="uk-text uk-text-small">You have no links.</p>
             {% else %}
@@ -20,11 +23,13 @@
 
         <div class="uk-margin-small-top uk-flex uk-flex-wrap">
             {% for link in links %}
-            <div class="uk-width-1-3 uk-margin-small-right">
-                <div class="uk-card uk-card-medium uk-card-default uk-card-body">
-                    <h3 class="uk-card-title uk-text-light">{{link.linkName}}</h3>
-                    <p>{{link.link}}</p>
-                </div>
+            <div
+                class="uk-card uk-card-medium uk-card-default uk-card-body uk-margin-small-right uk-margin-small-bottom uk-animation-slide-top-small">
+                <h3 class="uk-card-title uk-text-light">{{link.linkName}}</h3>
+                <a href="/edit/{{link.id}}" class="uk-card-badge uk-label uk-text-decoration-none uk-color-white"
+                    style="color: #fff;">Edit</a>
+                <a href="{{link.linkURL}}" target='__blank' class="uk-text-decoration-none"
+                    class="uk-text-small">{{link.linkURL}}</a>
             </div>
             {% endfor %}
         </div>

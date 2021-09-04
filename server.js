@@ -56,12 +56,16 @@ app.get("/", logoutRequired, routes.getHome);
 app.get("/home", logoutRequired, routes.getHome);
 app.get("/register", logoutRequired, routes.getRegister);
 app.get("/login", logoutRequired, routes.getLogin)
-app.post("/register", routes.postRegister);
-app.post("/login", routes.postLogin);
+app.post("/register", logoutRequired, routes.postRegister);
+app.post("/login", logoutRequired, routes.postLogin);
 app.get("/logout", routes.logout);
 app.get("/dashboard", loginRequired, routes.getDashboard);
 app.get("/create-link", loginRequired, routes.getCreateLink);
 app.post("/create-link", loginRequired, routes.postCreateLink);
+app.get("/account", loginRequired, routes.getAccountSettings);
+app.get("/:username", routes.getUserProfile);
+app.get("/edit/:linkId", loginRequired, routes.getEditLink);
+app.post("/edit/:linkId", loginRequired, routes.postEditLink);
 
 
 const PORT = process.env.PORT || 5000;

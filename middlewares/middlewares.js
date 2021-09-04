@@ -3,7 +3,7 @@ function loginRequired(req, res, next) {
         next();
     }
 
-    if (!req.session.user) {
+    else {
         req.flash("loginMessage", "Please login to access this page.")
         res.redirect("/login");
     }
@@ -15,7 +15,7 @@ function logoutRequired(req, res, next) {
         res.redirect("/dashboard")
     }
 
-    if (!req.session.user) {
+    else {
         next();
     }
 

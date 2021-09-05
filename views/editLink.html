@@ -20,16 +20,18 @@
                                     placeholder="Link URL (https://example.com)" required />
 
                             </div>
-                            {% for message in messages %}
-                            <p class='uk-text'>{{ message }}</p>
-                            {% endfor %}
+
 
                             <div class="uk-margin">
                                 <button class='uk-button uk-button-primary uk-width-1-1'>Save Changes</button>
                             </div>
                         </fieldset>
                     </form>
-
+                    <form method='POST' action='/delete/{{linkId}}'>
+                        <button class="uk-button uk-button-primary uk-text-decoration-none"
+                            uk-tooltip="title: If you press this button, this link will be permanently deleted. The only way to restore this link is to create it again. Be careful!">Delete
+                            Link?</button>
+                    </form>
                 </div>
             </div>
         </div>

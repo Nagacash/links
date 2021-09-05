@@ -66,6 +66,7 @@ app.get("/account", loginRequired, routes.getAccountSettings);
 app.get("/:username", routes.getUserProfile);
 app.get("/edit/:linkId", loginRequired, routes.getEditLink);
 app.post("/edit/:linkId", loginRequired, routes.postEditLink);
+app.post("/delete/:linkId", loginRequired, routes.deleteLink);
 
 
 const PORT = process.env.PORT || 5000;

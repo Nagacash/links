@@ -132,6 +132,26 @@ async function postEditLink(req, res) {
 }
 
 
+async function deleteLink(req, res) {
+    const link = await Link.findOne({ where: { id: req.params.linkId } });
+
+    if (link && link.linkOwnerId === req.session.user.id) {
+        await link.destroy();
+        req.flash("dashboardMessage", "Your link has been deleted.");
+        res.redirect("/dashboard")
+    }
+
+    if (!link) {
+        req.flash("dashboardMessage", "That link is invalid.")
+        res.redirect('/dashboard')
+    }
+
+    if (link.linkOwnerId !== req.session.user.id) {
+        req.flash("dashboardMessage", "You do not have permission to do that.")
+        res.redirect('/dashboard')
+    }
+}
+
 function getAccountSettings(req, res) {
     const defaultUsername = req.session.user.username;
     const defaultEmail = req.session.user.email;
@@ -165,6 +185,7 @@ module.exports = {
     postCreateLink: postCreateLink,
     getEditLink: getEditLink,
     postEditLink: postEditLink,
+    deleteLink: deleteLink,
     getAccountSettings: getAccountSettings,
     getUserProfile: getUserProfile,
 }

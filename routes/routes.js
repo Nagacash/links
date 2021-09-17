@@ -160,6 +160,53 @@ function getAccountSettings(req, res) {
     res.render("account.html", { title: "NodeLink - Account", messages: req.flash("accountMessage"), defaultUsername: defaultUsername, defaultEmail: defaultEmail })
 }
 
+async function postAccountSettings(req, res) {
+    const newUsername = req.body.username;
+    const newEmail = req.body.email;
+    const currentUser = await User.findOne({ where: { id: req.session.user.id } });
+    let emailValidation = false;
+    let usernameValidation = false;
+
+    if (newUsername !== currentUser.username) {
+        const exists = await User.findOne({ where: { username: newUsername } });
+        if (!exists) {
+            currentUser.update({ username: newUsername }).then(() => { console.log("Username updated successfully") }).catch((err) => { console.log("Error occurred when updating username", err) });
+            req.session.user.username = newUsername;
+            usernameValidation = true;
+        }
+        if (exists) {
+            req.flash("accountMessage", "That username already belongs to another user. Please choose a different one.")
+        }
+    }
+
+    if (newEmail !== currentUser.email) {
+        const exists = await User.findOne({ where: { email: newEmail } })
+        if (!exists) {
+            currentUser.update({ email: newEmail }).then(() => { console.log("Email updated successfully") }).catch((err) => { console.log("Error occurred when updating email", err) });
+            req.session.user.email = newEmail;
+            emailValidation = true;
+        }
+        if (exists) {
+            req.flash("accountMessage", "That email already belongs to another user. Please choose a different one.")
+        }
+    }
+
+    if (emailValidation && usernameValidation) {
+        req.flash("accountMessage", "Settings updated successfully!")
+    }
+
+    else if (emailValidation) {
+        req.flash("accountMessage", "Email updated successfully.")
+    }
+
+    else if (usernameValidation) {
+        req.flash("accountMessage", "Username updated successfully.")
+    }
+
+    res.redirect("/account")
+}
+
+
 async function getUserProfile(req, res) {
     const user = await User.findOne({ where: { username: req.params.username } });
     if (user) {
@@ -188,5 +235,6 @@ module.exports = {
     postEditLink: postEditLink,
     deleteLink: deleteLink,
     getAccountSettings: getAccountSettings,
-    getUserProfile: getUserProfile,
+    postAccountSettings: postAccountSettings,
+    getUserProfile: getUserProfile
 }

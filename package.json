@@ -1,5 +1,5 @@
 {
-  "name": "NodeLink",
+  "name": "node-link",
   "version": "1.0.0",
   "description": "An app to store all of your links",
   "main": "server.js",

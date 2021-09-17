@@ -6,16 +6,17 @@ const bcrypt = require('bcrypt');
 
 // App routing
 function getHome(req, res) {
-    res.render("index.html", { title: "Express Link - Home" })
+    res.render("index.html", { title: "NodeLink - Home" })
 }
 
 function getRegister(req, res) {
-    res.render("register.html", { title: "Express Link - Register", messages: req.flash("registerMessage") })
+    res.render("register.html", { title: "NodeLink - Register", messages: req.flash("registerMessage") })
 }
 
 function getLogin(req, res) {
-    res.render("login.html", { title: "Express Link - Login", messages: req.flash("loginMessage") })
+    res.render("login.html", { title: "NodeLink - Login", messages: req.flash("loginMessage") })
 }
+
 
 async function postRegister(req, res) {
     const email = req.body.email
@@ -73,11 +74,11 @@ async function getDashboard(req, res) {
             linkOwnerId: req.session.user.id
         }
     });
-    res.render("dashboard.html", { title: "Express Link - Dashboard", links: links, linksLength: links.length, messages: req.flash("dashboardMessage"), user: req.session.user });
+    res.render("dashboard.html", { title: "NodeLink - Dashboard", links: links, linksLength: links.length, messages: req.flash("dashboardMessage"), user: req.session.user });
 }
 
 function getCreateLink(req, res) {
-    res.render("createLink.html", { title: "Express Link - Create Link" });
+    res.render("createLink.html", { title: "NodeLink - Create Link" });
 }
 
 async function postCreateLink(req, res) {
@@ -94,7 +95,7 @@ async function postCreateLink(req, res) {
 async function getEditLink(req, res) {
     const link = await Link.findOne({ where: { id: req.params.linkId } });
     if (link && link.linkOwnerId === req.session.user.id) {
-        res.render("editLink.html", { title: `Express Link - ${link.linkName}`, defaultName: link.linkName, defaultURL: link.linkURL, linkId: link.id })
+        res.render("editLink.html", { title: `NodeLink - ${link.linkName}`, defaultName: link.linkName, defaultURL: link.linkURL, linkId: link.id })
     }
     if (!link) {
         req.flash("dashboardMessage", "That link is invalid.")
@@ -156,7 +157,7 @@ function getAccountSettings(req, res) {
     const defaultUsername = req.session.user.username;
     const defaultEmail = req.session.user.email;
 
-    res.render("account.html", { title: "Express Link - Account", messages: req.flash("accountMessage"), defaultUsername: defaultUsername, defaultEmail: defaultEmail })
+    res.render("account.html", { title: "NodeLink - Account", messages: req.flash("accountMessage"), defaultUsername: defaultUsername, defaultEmail: defaultEmail })
 }
 
 async function getUserProfile(req, res) {
@@ -165,7 +166,7 @@ async function getUserProfile(req, res) {
         const username = user.username;
         const links = await Link.findAll({ where: { linkOwnerId: user.id } });
 
-        res.render("user.html", { title: `Express Link - ${username}`, links: links, user: user })
+        res.render("user.html", { title: `NodeLink - ${username}`, links: links, user: user })
     }
     else {
         res.send("That user profile does not exist.")

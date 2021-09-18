@@ -22,6 +22,12 @@
                                     placeholder="Email" maxlength='320' required />
                             </div>
 
+                            <div class="uk-margin bio-textarea">
+                                <label class="uk-form-label">Bio</label>
+                                <textarea class="uk-textarea" placeholder="Bio (300 characters max)" name='bio' id='bio'
+                                    minlength="4" maxlength="300">{{defaultBio}}</textarea>
+                            </div>
+
                             {% for message in messages %}
                             <p class='uk-text'>{{ message }}</p>
                             {% endfor %}

@@ -29,6 +29,11 @@ const User = db.define("User", {
         allowNull: false
     },
 
+    bio: {
+        type: DataTypes.STRING(300),
+        allowNull: true
+    },
+
     created_at: {
         type: DataTypes.DATE
     },

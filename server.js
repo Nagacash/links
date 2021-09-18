@@ -64,6 +64,8 @@ app.get("/create-link", loginRequired, routes.getCreateLink);
 app.post("/create-link", loginRequired, routes.postCreateLink);
 app.get("/account", loginRequired, routes.getAccountSettings);
 app.post("/account", loginRequired, routes.postAccountSettings);
+app.get("/change-password", loginRequired, routes.getChangePassword);
+app.post("/change-password", loginRequired, routes.postChangePassword);
 app.get("/:username", routes.getUserProfile);
 app.get("/edit/:linkId", loginRequired, routes.getEditLink);
 app.post("/edit/:linkId", loginRequired, routes.postEditLink);

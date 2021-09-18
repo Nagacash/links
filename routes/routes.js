@@ -48,6 +48,7 @@ async function postLogin(req, res) {
         const passwordMatch = await bcrypt.compare(password, user.password)
         if (!passwordMatch) {
             req.flash("loginMessage", "Password is invalid.")
+            res.redirect("/login")
         }
         if (passwordMatch) {
             req.session.user = user
@@ -170,7 +171,7 @@ async function postAccountSettings(req, res) {
     if (newUsername !== currentUser.username) {
         const exists = await User.findOne({ where: { username: newUsername } });
         if (!exists) {
-            currentUser.update({ username: newUsername }).then(() => { console.log("Username updated successfully") }).catch((err) => { console.log("Error occurred when updating username", err) });
+            await currentUser.update({ username: newUsername }).then(() => { console.log("Username updated successfully") }).catch((err) => { console.log("Error occurred when updating username", err) });
             req.session.user.username = newUsername;
             usernameValidation = true;
         }
@@ -182,7 +183,7 @@ async function postAccountSettings(req, res) {
     if (newEmail !== currentUser.email) {
         const exists = await User.findOne({ where: { email: newEmail } })
         if (!exists) {
-            currentUser.update({ email: newEmail }).then(() => { console.log("Email updated successfully") }).catch((err) => { console.log("Error occurred when updating email", err) });
+            await currentUser.update({ email: newEmail }).then(() => { console.log("Email updated successfully") }).catch((err) => { console.log("Error occurred when updating email", err) });
             req.session.user.email = newEmail;
             emailValidation = true;
         }
@@ -206,6 +207,33 @@ async function postAccountSettings(req, res) {
     res.redirect("/account")
 }
 
+
+async function getChangePassword(req, res) {
+    res.render("changePassword.html", { title: "NodeLink - Change Password", messages: req.flash("changePasswordMessage") })
+}
+
+async function postChangePassword(req, res) {
+    const currentUser = await User.findOne({ where: { id: req.session.user.id } })
+    const currentPassword = req.body.currentPassword;
+    const newPassword = req.body.newPassword;
+
+    const passwordMatch = await bcrypt.compare(currentPassword, currentUser.password)
+
+    if (passwordMatch) {
+        bcrypt.hash(newPassword, 12, async (err, hash) => {
+            if (err) {
+                console.log(err)
+            }
+            await currentUser.update({ password: hash }).then(() => { console.log("Password updated successfully.") }).catch((err) => { console.log("Error occurred when updating password", err) })
+            req.flash("accountMessage", "Your password has been updated successfully!")
+            res.redirect("/account")
+        })
+    }
+    if (!passwordMatch) {
+        req.flash('changePasswordMessage', "Your current password is invalid. Please enter in the correct current password in order to update your password.")
+        res.redirect("/change-password")
+    }
+}
 
 async function getUserProfile(req, res) {
     const user = await User.findOne({ where: { username: req.params.username } });
@@ -236,5 +264,7 @@ module.exports = {
     deleteLink: deleteLink,
     getAccountSettings: getAccountSettings,
     postAccountSettings: postAccountSettings,
+    getChangePassword: getChangePassword,
+    postChangePassword: postChangePassword,
     getUserProfile: getUserProfile
 }

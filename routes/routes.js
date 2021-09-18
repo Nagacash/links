@@ -19,24 +19,30 @@ function getLogin(req, res) {
 
 
 async function postRegister(req, res) {
-    const email = req.body.email
-    const username = req.body.username
-    const password = req.body.password
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const username = req.body.username;
+    const password = req.body.password;
 
-    const userExists = await User.findOne({ where: { email: email } })
-    if (userExists) {
-        req.flash("registerMessage", "That username or email already exists. Please choose a different one.")
+    const emailExists = await User.findOne({ where: { email: email } })
+    const usernameExists = await User.findOne({ where: { username: username } })
+
+    if (usernameExists || emailExists) {
+        req.flash("registerMessage", "That username or email already belongs to an account. Please choose a different one.")
         res.redirect("/register")
     }
-    if (!userExists) {
+
+    if (!emailExists && !usernameExists) {
         bcrypt.hash(password, 12, async (err, hash) => {
             if (err) {
                 console.log(err)
             }
-            let newUser = await User.create({ email: email, username: username, password: hash }).catch((err) => { console.log("Error occurred when trying to create user ", err) })
+            let newUser = await User.create({ firstName: firstName, lastName: lastName, email: email, username: username, password: hash }).catch((err) => { console.log("Error occurred when trying to create user ", err) })
             res.redirect("/login")
         })
     }
+
 }
 
 async function postLogin(req, res) {
@@ -155,18 +161,32 @@ async function deleteLink(req, res) {
 }
 
 function getAccountSettings(req, res) {
+    const defaultFirstName = req.session.user.firstName;
+    const defaultLastName = req.session.user.lastName;
     const defaultUsername = req.session.user.username;
     const defaultEmail = req.session.user.email;
     const defaultBio = req.session.user.bio;
 
-    res.render("account.html", { title: "NodeLink - Account", messages: req.flash("accountMessage"), defaultUsername: defaultUsername, defaultEmail: defaultEmail, defaultBio: defaultBio })
+    res.render("account.html", { title: "NodeLink - Account", messages: req.flash("accountMessage"), defaultFirstName: defaultFirstName, defaultLastName: defaultLastName, defaultUsername: defaultUsername, defaultEmail: defaultEmail, defaultBio: defaultBio })
 }
 
 async function postAccountSettings(req, res) {
+    const newFirstName = req.body.firstName;
+    const newLastName = req.body.lastName;
     const newUsername = req.body.username;
     const newEmail = req.body.email;
     const bio = req.body.bio;
     const currentUser = await User.findOne({ where: { id: req.session.user.id } });
+
+    if (newFirstName !== currentUser.firstName) {
+        await currentUser.update({ firstName: newFirstName }).then(() => { console.log("First name updated successfully.") }).catch((err) => { console.log("Error occurred when updating first name", err) });
+        req.session.user.firstName = newFirstName;
+    }
+
+    if (newLastName !== currentUser.lastName) {
+        await currentUser.update({ lastName: newLastName }).then(() => { console.log("Last name updated successfully.") }).catch((err) => { console.log("Error occurred when updating last name", err) });;
+        req.session.user.lastName = newLastName;
+    }
 
     if (newUsername !== currentUser.username) {
         const exists = await User.findOne({ where: { username: newUsername } });

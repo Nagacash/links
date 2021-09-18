@@ -157,23 +157,22 @@ async function deleteLink(req, res) {
 function getAccountSettings(req, res) {
     const defaultUsername = req.session.user.username;
     const defaultEmail = req.session.user.email;
+    const defaultBio = req.session.user.bio;
 
-    res.render("account.html", { title: "NodeLink - Account", messages: req.flash("accountMessage"), defaultUsername: defaultUsername, defaultEmail: defaultEmail })
+    res.render("account.html", { title: "NodeLink - Account", messages: req.flash("accountMessage"), defaultUsername: defaultUsername, defaultEmail: defaultEmail, defaultBio: defaultBio })
 }
 
 async function postAccountSettings(req, res) {
     const newUsername = req.body.username;
     const newEmail = req.body.email;
+    const bio = req.body.bio;
     const currentUser = await User.findOne({ where: { id: req.session.user.id } });
-    let emailValidation = false;
-    let usernameValidation = false;
 
     if (newUsername !== currentUser.username) {
         const exists = await User.findOne({ where: { username: newUsername } });
         if (!exists) {
             await currentUser.update({ username: newUsername }).then(() => { console.log("Username updated successfully") }).catch((err) => { console.log("Error occurred when updating username", err) });
             req.session.user.username = newUsername;
-            usernameValidation = true;
         }
         if (exists) {
             req.flash("accountMessage", "That username already belongs to another user. Please choose a different one.")
@@ -185,24 +184,18 @@ async function postAccountSettings(req, res) {
         if (!exists) {
             await currentUser.update({ email: newEmail }).then(() => { console.log("Email updated successfully") }).catch((err) => { console.log("Error occurred when updating email", err) });
             req.session.user.email = newEmail;
-            emailValidation = true;
         }
         if (exists) {
             req.flash("accountMessage", "That email already belongs to another user. Please choose a different one.")
         }
     }
 
-    if (emailValidation && usernameValidation) {
-        req.flash("accountMessage", "Settings updated successfully!")
+    if (bio !== currentUser.bio) {
+        await currentUser.update({ bio: bio }).then(() => { console.log("Bio updated successfully") }).catch((err) => { console.log("Error occurred when updating bio", err) });
+        req.session.user.bio = bio;
     }
 
-    else if (emailValidation) {
-        req.flash("accountMessage", "Email updated successfully.")
-    }
-
-    else if (usernameValidation) {
-        req.flash("accountMessage", "Username updated successfully.")
-    }
+    req.flash("accountMessage", "Settings updated successfully!")
 
     res.redirect("/account")
 }

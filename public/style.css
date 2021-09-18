@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.bio-textarea > textarea {
+    resize: none;
+    height: 12em;
+}
+
+.link {
+    border: 1px solid lightgray;
+    border-radius: 16px;
+}
+
+.user-profile-image > img {
+    border-radius: 50%;
+    object-fit: cover;
+}

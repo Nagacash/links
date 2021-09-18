@@ -10,11 +10,36 @@
 }
 
 .link {
-    border: 1px solid lightgray;
-    border-radius: 16px;
+    background-color: #fff;
+    border-radius: 60px;
 }
 
 .user-profile-image > img {
-    border-radius: 50%;
     object-fit: cover;
+}
+
+.user-page {
+    background: linear-gradient(#2980B9,#6DD5FA,#FFFFFF);
+    height: 100vh;
+}
+
+@media (min-width: 280px) {
+    .link {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
+@media (min-width: 540px) {
+    .link {
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+}
+
+@media (min-width: 768px) {
+    .link {
+        margin-left: 22%;
+        margin-right: 22%;
+    }
 }

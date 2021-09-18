@@ -10,6 +10,22 @@
                 <div class="uk-card uk-card-default uk-card-small uk-card-body">
                     <form method='POST' action='/account'>
                         <fieldset class="uk-fieldset">
+
+                            <div class="uk-margin uk-flex">
+                                <div class="uk-width-1-2 uk-margin-small-right">
+                                    <label class="uk-form-label">First Name</label>
+                                    <input class='uk-input' type='text' value="{{defaultFirstName}}" name='firstName'
+                                        id='firstName' placeholder="First Name" required />
+                                </div>
+
+                                <div class="uk-width-1-2 uk-margin-small-left">
+                                    <label class="uk-form-label">Last Name</label>
+                                    <input class='uk-input' type='text' value="{{defaultLastName}}" name='lastName'
+                                        id='lastName' placeholder="Last Name" required />
+                                </div>
+                            </div>
+
+
                             <div class="uk-margin">
                                 <label class="uk-form-label">Username</label>
                                 <input class="uk-input" type='text' value="{{defaultUsername}}" name='username'

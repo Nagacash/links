@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/style.css" />
+    <title>{{title}}</title>
+
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.2/dist/css/uikit.min.css" />
 
@@ -15,18 +20,18 @@
 </head>
 
 <body>
-    <style>
-        .link {
-            border: 1px solid lightgray;
-            border-radius: 16px;
-        }
-    </style>
     <div class="uk-container">
         <div class="uk-flex uk-flex-column uk-flex-center uk-align-center">
-            <div class="uk-margin-medium-top uk-margin-auto">
-                <h1 class="uk-color-black uk-text-light">{{user.username}}</h1>
-            </div>
 
+
+            <div class="uk-margin-medium-top uk-margin-auto">
+                <div class="uk-flex uk-flex-center uk-justify-center uk-align-center user-profile-image">
+                    <img src="/profile_pics/logo.png" width='200' height='200'
+                        alt="{{user.username}}'s profile picture." />
+                </div>
+                <h1 class="uk-color-black uk-text-light">{{user.username}}</h1>
+                <p class="uk-text-center">{{user.bio}}</p>
+            </div>
             <div class="uk-margin uk-flex uk-flex-column uk-flex-center uk-align-center uk-text-center">
                 {% for link in links %}
                 <div class="uk-margin-small uk-padding-small link">

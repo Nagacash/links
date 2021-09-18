@@ -20,26 +20,29 @@
 </head>
 
 <body>
-    <div class="uk-container">
-        <div class="uk-flex uk-flex-column uk-flex-center uk-align-center">
-
+    <div class="uk-container-expand user-page">
+        <div class="uk-flex uk-flex-column uk-flex-center uk-align-center uk-text-center">
 
             <div class="uk-margin-medium-top uk-margin-auto">
-                <div class="uk-flex uk-flex-center uk-justify-center uk-align-center user-profile-image">
-                    <img src="/profile_pics/logo.png" width='200' height='200'
-                        alt="{{user.username}}'s profile picture." />
+                <div class="uk-flex uk-flex-center uk-align-center user-profile-image">
+                    <img class="uk-border-circle" src="/profile_pics/logo.png"
+                        alt="{{user.firstName}} {{user.lastName}}'s profile picture." width='130' height='130' />
                 </div>
-                <h1 class="uk-color-black uk-text-light">{{user.username}}</h1>
-                <p class="uk-text-center">{{user.bio}}</p>
+                <h1 class="uk-color-black uk-text-light">{{user.firstName}} {{user.lastName}}</h2>
+                    <p class="uk-text-center">{{user.bio}}</p>
             </div>
-            <div class="uk-margin uk-flex uk-flex-column uk-flex-center uk-align-center uk-text-center">
+            <div class="uk-flex uk-flex-column uk-flex-center uk-align-center uk-width-1-1">
                 {% for link in links %}
-                <div class="uk-margin-small uk-padding-small link">
+                <div class="uk-margin-small uk-padding-small uk-box-shadow-small link">
                     <a href="{{link.linkURL}}" target="__blank"
                         class="uk-link-heading uk-text-large">{{link.linkName}}</a>
                 </div>
                 {% endfor %}
             </div>
+        </div>
+
+        <div class="uk-position-bottom uk-text-center">
+            <p>Powered by NodeLink.</p>
         </div>
     </div>
 </body>

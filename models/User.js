@@ -46,6 +46,24 @@ const User = db.define("User", {
         allowNull: true
     },
 
+    bgColor: {
+        type: DataTypes.STRING(),
+        defaultValue: "#f2f2f2",
+        allowNull: false
+    },
+
+    linkBgColor: {
+        type: DataTypes.STRING(),
+        defaultValue: "#ffffff",
+        allowNull: false
+    },
+
+    textColor: {
+        type: DataTypes.STRING(),
+        defaultValue: "#404040",
+        allowNull: false
+    },
+
     created_at: {
         type: DataTypes.DATE
     },

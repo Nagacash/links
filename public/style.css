@@ -10,7 +10,6 @@
 }
 
 .link {
-    background-color: #fff;
     border-radius: 60px;
 }
 
@@ -19,7 +18,6 @@
 }
 
 .user-page {
-    background: linear-gradient(#2980B9,#6DD5FA,#FFFFFF);
     height: 100vh;
 }
 

@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <div class="uk-container-expand user-page">
+    <div class="uk-container-expand user-page" style="background-color: {{user.bgColor}};">
         <div class="uk-flex uk-flex-column uk-flex-center uk-align-center uk-text-center">
 
             <div class="uk-margin-medium-top uk-margin-auto">
@@ -28,21 +28,24 @@
                     <img class="uk-border-circle" src="/profile_pics/logo.png"
                         alt="{{user.firstName}} {{user.lastName}}'s profile picture." width='130' height='130' />
                 </div>
-                <h1 class="uk-color-black uk-text-light">{{user.firstName}} {{user.lastName}}</h2>
-                    <p class="uk-text-center">{{user.bio}}</p>
+                <h1 class="uk-text-light" style="color: {{user.textColor}};">{{user.firstName}} {{user.lastName}}</h2>
+                    <p class="uk-text-center" style="color: {{user.textColor}};">{{user.bio}}</p>
             </div>
             <div class="uk-flex uk-flex-column uk-flex-center uk-align-center uk-width-1-1">
                 {% for link in links %}
-                <div class="uk-margin-small uk-padding-small uk-box-shadow-small link">
-                    <a href="{{link.linkURL}}" target="__blank"
+                <div class="uk-margin-small uk-padding-small uk-box-shadow-small link"
+                    style="background-color: {{user.linkBgColor}};">
+
+                    <a href="{{link.linkURL}}" target="__blank" style="color: {{user.textColor}};"
                         class="uk-link-heading uk-text-large">{{link.linkName}}</a>
+
                 </div>
                 {% endfor %}
             </div>
         </div>
 
         <div class="uk-position-bottom uk-text-center">
-            <p>Powered by NodeLink.</p>
+            <p style="color: {{user.textColor}};">Powered by NodeLink.</p>
         </div>
     </div>
 </body>

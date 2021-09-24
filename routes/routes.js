@@ -248,6 +248,30 @@ async function postChangePassword(req, res) {
     }
 }
 
+
+async function getEditSite(req, res) {
+    const defaultBgColor = req.session.user.bgColor;
+    const defaultLinkBgColor = req.session.user.linkBgColor;
+    const defaultTextColor = req.session.user.textColor;
+
+    res.render("editSite.html", { title: "NodeLink - Edit Site", messages: req.flash("editSiteMessage"), defaultBgColor: defaultBgColor, defaultLinkBgColor: defaultLinkBgColor, defaultTextColor });
+}
+
+async function postEditSite(req, res) {
+    const bgColor = req.body.bgColor;
+    const linkBgColor = req.body.linkBgColor;
+    const textColor = req.body.textColor;
+    const currentUser = await User.findOne({ where: { id: req.session.user.id } });
+
+    await currentUser.update({ bgColor: bgColor, linkBgColor: linkBgColor, textColor: textColor }).then(() => { console.log("Site settings updated successfully!") }).catch((err) => { console.log("Error occurred when updating site", err) })
+    req.session.user.bgColor = bgColor;
+    req.session.user.linkBgColor = linkBgColor;
+    req.session.user.textColor = textColor;
+
+    req.flash("dashboardMessage", "Your site appearance has been successfully updated!")
+    res.redirect("/dashboard")
+}
+
 async function getUserProfile(req, res) {
     const user = await User.findOne({ where: { username: req.params.username } });
     if (user) {
@@ -279,5 +303,7 @@ module.exports = {
     postAccountSettings: postAccountSettings,
     getChangePassword: getChangePassword,
     postChangePassword: postChangePassword,
+    getEditSite: getEditSite,
+    postEditSite: postEditSite,
     getUserProfile: getUserProfile
 }

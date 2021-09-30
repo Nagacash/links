@@ -39,6 +39,7 @@ async function postRegister(req, res) {
                 console.log(err)
             }
             let newUser = await User.create({ firstName: firstName, lastName: lastName, email: email, username: username, password: hash }).catch((err) => { console.log("Error occurred when trying to create user ", err) })
+            req.flash("loginMessage", "Your account has successfully been created!")
             res.redirect("/login")
         })
     }
@@ -252,20 +253,23 @@ async function postChangePassword(req, res) {
 async function getEditSite(req, res) {
     const defaultBgColor = req.session.user.bgColor;
     const defaultLinkBgColor = req.session.user.linkBgColor;
+    const defaultLinkColor = req.session.user.linkColor;
     const defaultTextColor = req.session.user.textColor;
 
-    res.render("editSite.html", { title: "NodeLink - Edit Site", messages: req.flash("editSiteMessage"), defaultBgColor: defaultBgColor, defaultLinkBgColor: defaultLinkBgColor, defaultTextColor });
+    res.render("editSite.html", { title: "NodeLink - Edit Site", messages: req.flash("editSiteMessage"), defaultBgColor: defaultBgColor, defaultLinkBgColor: defaultLinkBgColor, defaultLinkColor: defaultLinkColor, defaultTextColor: defaultTextColor });
 }
 
 async function postEditSite(req, res) {
     const bgColor = req.body.bgColor;
     const linkBgColor = req.body.linkBgColor;
+    const linkColor = req.body.linkColor;
     const textColor = req.body.textColor;
     const currentUser = await User.findOne({ where: { id: req.session.user.id } });
 
-    await currentUser.update({ bgColor: bgColor, linkBgColor: linkBgColor, textColor: textColor }).then(() => { console.log("Site settings updated successfully!") }).catch((err) => { console.log("Error occurred when updating site", err) })
+    await currentUser.update({ bgColor: bgColor, linkBgColor: linkBgColor, linkColor: linkColor, textColor: textColor }).then(() => { console.log("Site settings updated successfully!") }).catch((err) => { console.log("Error occurred when updating site", err) })
     req.session.user.bgColor = bgColor;
     req.session.user.linkBgColor = linkBgColor;
+    req.session.user.linkColor = linkColor;
     req.session.user.textColor = textColor;
 
     req.flash("dashboardMessage", "Your site appearance has been successfully updated!")

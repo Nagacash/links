@@ -58,6 +58,12 @@ const User = db.define("User", {
         allowNull: false
     },
 
+    linkColor: {
+        type: DataTypes.STRING(),
+        defaultValue: "#404040",
+        allowNull: false,
+    },
+
     textColor: {
         type: DataTypes.STRING(),
         defaultValue: "#404040",

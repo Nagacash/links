@@ -19,19 +19,21 @@
 </head>
 
 <body>
-    <nav class="uk-navbar-container" uk-navbar>
-        <div class="uk-navbar-left">
+    <div class="uk-background-primary uk-light" uk-sticky>
+        <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+            <div class="uk-navbar-left">
 
-            <ul class="uk-navbar-nav">
-                <li class="uk-active"><a href="#">NodeLink</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/create-link">Create Link</a></li>
-                <li><a href="/account">Account</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="/dashboard">NodeLink</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/create-link">Create Link</a></li>
+                    <li><a href="/account">Account</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
 
-        </div>
-    </nav>
+            </div>
+        </nav>
+    </div>
     <main>
         {% block content %}
         {% endblock %}

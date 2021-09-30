@@ -1,5 +1,28 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="container">
+    <div class="uk-flex uk-flex-column uk-flex-center uk-align-center uk-text-center">
+        <div class="uk-margin-large-top">
+            <h2 class="uk-text-center uk-color-black">One powerful link with everything you need!</h2>
+            <p>Connect your audience with one powerful link.</p>
+            <button class="uk-button uk-button-primary" id="get-started-for-free">
+                GET STARTED FOR FREE
+            </button>
+        </div>
+        <div class="demo uk-margin-medium-top">
+            <img src="/demo.png" />
+        </div>
+    </div>
 
+</div>
+</div>
+
+<script>
+    const button = document.getElementById("get-started-for-free");
+
+    button.addEventListener("click", () => {
+        window.location.replace("/register")
+    })
+</script>
 {% endblock %}

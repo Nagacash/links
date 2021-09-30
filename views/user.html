@@ -25,8 +25,8 @@
 
             <div class="uk-margin-medium-top uk-margin-auto">
                 <div class="uk-flex uk-flex-center uk-align-center user-profile-image">
-                    <img class="uk-border-circle" src="/profile_pics/logo.png"
-                        alt="{{user.firstName}} {{user.lastName}}'s profile picture." width='130' height='130' />
+                    <img class="uk-border-circle" src="/profile_pics/default.png"
+                        alt="{{user.firstName}} {{user.lastName}}'s profile picture." />
                 </div>
                 <h1 class="uk-text-light" style="color: {{user.textColor}};">{{user.firstName}} {{user.lastName}}</h2>
                     <p class="uk-text-center" style="color: {{user.textColor}};">{{user.bio}}</p>
@@ -36,7 +36,7 @@
                 <div class="uk-margin-small uk-padding-small uk-box-shadow-small link"
                     style="background-color: {{user.linkBgColor}};">
 
-                    <a href="{{link.linkURL}}" target="__blank" style="color: {{user.textColor}};"
+                    <a href="{{link.linkURL}}" target="__blank" style="color: {{user.linkColor}};"
                         class="uk-link-heading uk-text-large">{{link.linkName}}</a>
 
                 </div>

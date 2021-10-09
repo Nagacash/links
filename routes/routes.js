@@ -276,16 +276,35 @@ async function postEditSite(req, res) {
     res.redirect("/dashboard")
 }
 
+async function getAnalytics(req, res) {
+    const user = await User.findOne({ where: { id: req.session.user.id } });
+    res.render("analytics.html", { title: "NodeLink - Analytics", user: user })
+}
+
 async function getUserProfile(req, res) {
     const user = await User.findOne({ where: { username: req.params.username } });
     if (user) {
         const username = user.username;
         const links = await Link.findAll({ where: { linkOwnerId: user.id } });
-
+        if (req.session.user) {
+            if (user.id !== req.session.user.id) {
+                user.views++;
+                user.save();
+            }
+        }
+        if (req.session.user == null) {
+            user.views++;
+            user.save();
+        }
         res.render("user.html", { title: `NodeLink - ${username}`, links: links, user: user })
     }
     else {
-        res.send("That user profile does not exist.")
+        if (req.session.user) {
+            res.render("loggedIn404.html", { title: "NodeLink - 404 Not Found" })
+        }
+        if (req.session.user == null) {
+            res.render("loggedOut404.html", { title: "NodeLink - 404 Not Found" })
+        }
     }
 }
 
@@ -309,5 +328,6 @@ module.exports = {
     postChangePassword: postChangePassword,
     getEditSite: getEditSite,
     postEditSite: postEditSite,
+    getAnalytics: getAnalytics,
     getUserProfile: getUserProfile
 }

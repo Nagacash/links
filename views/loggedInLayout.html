@@ -22,17 +22,34 @@
     <div class="uk-background-primary uk-light" uk-sticky>
         <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
             <div class="uk-navbar-left">
-
+                <a class="uk-navbar-item uk-light uk-text-decoration-none" href="/dashboard"
+                    style="color: white;">NODELINK</a>
+            </div>
+            <div class="uk-navbar-right">
                 <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="/dashboard">NodeLink</a></li>
-                    <li><a href="/dashboard">Dashboard</a></li>
-                    <li><a href="/create-link">Create Link</a></li>
-                    <li><a href="/account">Account</a></li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li class="hover-over uk-visible@s"><a href="/dashboard">Dashboard</a></li>
+                    <li class="hover-over uk-visible@s"><a href="/create-link">Create Link</a></li>
+                    <li class="hover-over uk-visible@s"><a href="/analytics">Analytics</a></li>
+                    <li class="hover-over uk-visible@s"><a href="/account">Account</a></li>
+                    <li class="hover-over uk-visible@s"><a href="/logout">Logout</a></li>
+                    <li class="hover-over uk-hidden@s"><a href="#" uk-toggle="target: #offcanvas-usage"><span
+                                uk-navbar-toggle-icon></span></a>
                 </ul>
 
             </div>
         </nav>
+    </div>
+    <div id="offcanvas-usage" uk-offcanvas="overlay: true; flip: true;">
+        <div class="uk-offcanvas-bar uk-flex uk-flex-column">
+            <button class="uk-offcanvas-close" type="button" uk-close></button>
+            <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/create-link">Create Link</a></li>
+                <li><a href="/analytics">Analytics</a></li>
+                <li><a href="/account">Account</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
     </div>
     <main>
         {% block content %}

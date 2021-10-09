@@ -1,0 +1,20 @@
+{% extends "loggedInLayout.html" %}
+
+{% block content %}
+<div class="uk-container">
+    <div class="uk-flex uk-flex-column">
+        <div class="uk-margin-medium-top">
+            <h1 class="uk-text uk-text-large uk-text-light uk-text-emphasis uk-heading-divider uk-color-black">
+                Site Analytics
+            </h1>
+            <div>
+                <div class="uk-card uk-card-default uk-card-small uk-card-body">
+                    <div>
+                        Site Views <span class="uk-text-bold">{{user.views}}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

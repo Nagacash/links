@@ -30,4 +30,4 @@ Please make sure to update tests as appropriate.
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Developer
-Code written by [Arpan Neupane](https://arpanneupane.com).
+Code written by [Maurice Holda](https://mauriceholda-portfolio.vercel.app/).
